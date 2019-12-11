@@ -1,0 +1,39 @@
+<!-- register/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+<title>BioDB | Update Profile</title>
+</head>
+<body>
+    <script>
+        {% include "pages/user_profile/update.js" %}
+    </script>
+
+    <h1>Update Profile</h1>
+    <p>
+    First Name:
+    <input id="first_name" name="first_name" type="text"></input>
+    </p>
+
+    <p>
+    Last Name:
+    <input id="last_name" name="last_name" type="text"></input>
+    </p>
+
+    <p>
+    Email:
+    <input id="email" name="email" type="text"></input>
+    </p>
+
+    <p>
+    Username:
+    <input id="username" name="username" type="text"></input>
+    </p>
+
+    <p>
+    <button type="button" onclick="onBackClick()">Back</button>
+    <button type="button" onclick="onSubmitClick()">Submit</button>
+
+    </p>
+</body>
+</html>

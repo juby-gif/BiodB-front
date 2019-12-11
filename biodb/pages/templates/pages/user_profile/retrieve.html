@@ -1,0 +1,39 @@
+<!-- register/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+<title>BioDB | User Profile</title>
+</head>
+<body>
+    <script>
+        {% include "pages/user_profile/retrieve.js" %}
+    </script>
+
+    <h1>User Profile</h1>
+    <p>
+    First Name:
+    <input id="first_name" name="first_name" type="text" readonly disabled></input>
+    </p>
+
+    <p>
+    Last Name:
+    <input id="last_name" name="last_name" type="text" readonly disabled></input>
+    </p>
+
+    <p>
+    Last Name:
+    <input id="email" name="email" type="text" readonly disabled></input>
+    </p>
+
+    <p>
+    username:
+    <input id="username" name="username" type="text" readonly disabled></input>
+    </p>
+
+    <p>
+    <button type="button" onclick="onBackClick()">Back</button>
+    <button type="button" onclick="onEditClick()">Edit Profile</button>
+
+    </p>
+</body>
+</html>

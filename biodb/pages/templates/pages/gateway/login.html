@@ -1,0 +1,52 @@
+<!-- gateway/login.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>BioDB || Login  </title>
+</head>
+<style>
+  .move {
+    text-align: center;
+    background-color: lightgrey;
+    width: 300px;
+    border: 2px solid green;
+    padding: 50px;
+    margin: 20px;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+      }
+  h1,h3,p{
+    color:black;
+    text-align:center;
+    }
+  body {background-color:Aliceblue;}
+</style>
+<p style="font-size:22px;"><strong>Log In</strong></p>
+<body>
+  <script>
+  {% include "pages/gateway/login.js" %}
+  {% include "pages/gateway/register.js" %}
+  </script>
+  <div class="move">
+
+    USERNAME:
+    <input id = "username" name = "username" type = "text"></input>
+    <p>
+      PASSWORD:
+      <input id = "password" name = "password" type = "password"></input>
+    </p>
+    <p>
+    <button onclick = "onLoginClick();">Login</button>
+    <p style="font-size:14px;"><a href="{{ BACKEND_API_SERVER_ADDRESS}}/r'^api/password_reset">Forgot password? </a> </p>
+    </p>
+    <p style="font-size:16px;">New user? Click <a href="{% url 'register_page' %}">here</a> to Register!</p>
+  </div>
+
+
+</body>
+</html>

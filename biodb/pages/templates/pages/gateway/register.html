@@ -1,0 +1,68 @@
+<!-- gateway/register.html -->
+<!DOCTYPE html>
+<html>
+<head>
+<title>BiodB | Register</title>
+</head>
+<body>
+  <style>
+    .move {
+      text-align: center;
+      background-color: lightgrey;
+      width: 300px;
+      border: 2px solid green;
+      padding: 50px;
+      margin: 20px;
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      -ms-transform: translateX(-50%) translateY(-50%);
+      -webkit-transform: translate(-50%,-50%);
+      transform: translate(-50%,-50%);
+        }
+    h1,h3,p{
+      color:black;
+      text-align:center;
+      }
+    body {background-color:Aliceblue;}
+  </style>
+  <p style="font-size:25px;"><strong>Register your Account</strong></p>
+  <body>
+    <script>
+        {% include "pages/gateway/register.js" %}
+    </script>
+    <div class="move">
+
+      <p>
+      First Name:
+      <input id="first_name" name="first_name" type="text"></input>
+      </p>
+
+      <p>
+      Last Name:
+      <input id="last_name" name="last_name" type="text"></input>
+      </p>
+
+      <p>
+      Email:
+      <input id="email" name="email" type="text"></input>
+      </p>
+
+      <p>
+      Username:
+      <input id="username" name="username" type="text"></input>
+      </p>
+
+      <p>
+      Password:
+      <input id="password" name="password" type="password"></input>
+      </p>
+
+      <p>
+      <button type="button" onclick="onRegisterClick()">Submit</button>
+      </p>
+      <p style="font-size:16px;">Already have an account?<a href="{% url 'login_page' %}">Sign in</a></p>
+
+    </div>
+</body>
+</html>
