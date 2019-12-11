@@ -19,7 +19,39 @@ onPageLoadGetDashboardAPI();
 function onLogoutClick() {
     window.location.href = "{% url 'login_page' %}";
 }
- 
+
+
+function generateViewFromObject(dataObj) {
+    if (dataObj.was_found === false) {
+        alert("Sorry we could not find that instrument!");
+        onBackClick();
+    } else {
+        var firstNameInputElement = document.getElementById("first_name");
+        firstNameInputElement.innerHTML = dataObj.first_name;
+
+    }
+}
+
+function onPageLoadRunGetProfileFromAPI() {
+
+    const tokenString = localStorage.getItem('biodb_token');
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const dataString = this.responseText;
+            const dataObj = JSON.parse(dataString);
+            generateViewFromObject(dataObj);
+        }
+    }
+    const detailURL = "{{ BACKEND_API_SERVER_ADDRESS }}/api/user-profile/retrieve";
+    console.log(detailURL);
+    xhttp.open("GET", detailURL, true);
+    xhttp.setRequestHeader('Authorization','Token '+tokenString)
+    xhttp.send();
+}
+
+onPageLoadRunGetProfileFromAPI();
+
 
 // function generateTableFromObject(dataObj) {
 //    //This is the code which will create
