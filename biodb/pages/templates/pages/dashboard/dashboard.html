@@ -3,20 +3,37 @@
 <head>
 <title>BiodB | Dashboard</title>
 </head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+}
+th {
+  text-align: left;
+}
+</style>
 <body>
     <script>
         {% include "pages/dashboard/dashboard.js" %}
 
     </script>
     <h1>Dashboard</h1>
+    <button onclick="onProfileClick();">Your Profile</button>
    <p>Welcome to your dashboard <strong id="first_name">Name</strong>,</p>
+   <p><button onclick="onStepCountSensorClick();">Statistics of Steps Count</button></p>
 
+   <p><button onclick="onWalkingAndRunningCountSensorClick();">Statistics of Walking and Running</button></p>
    <br />
+   <table style="width:40%" id="statistics_table"></table>
 
-   <table style="width:100%" id="instruments_list"></table>
 
    <br />
    <button onclick="onLogoutClick();">Logout</button>
+
+
 
 </body>
 </html>

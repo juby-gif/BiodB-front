@@ -39,12 +39,13 @@ function onBackClick() {
 }
 
 function onSubmitClick() {
+  const tokenString = localStorage.getItem('biodb_token');
+  
   const username = document.getElementById("username").value;
   const first_name = document.getElementById("first_name").value;
   const last_name = document.getElementById("last_name").value;
   const email = document.getElementById("email").value;
-  const tokenString = localStorage.getItem('biodb_token');
-  
+
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 400) {

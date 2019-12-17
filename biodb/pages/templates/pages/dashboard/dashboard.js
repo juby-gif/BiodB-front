@@ -1,4 +1,5 @@
-function onPageLoadGetDashboardAPI() {
+
+function onStepCountSensorClick() {
 
     const tokenString = localStorage.getItem('biodb_token');
     var xhttp = new XMLHttpRequest();
@@ -6,29 +7,85 @@ function onPageLoadGetDashboardAPI() {
         if (this.readyState == 4 && this.status == 200) {
             const dataString = this.responseText;
             const dataObj = JSON.parse(dataString);
-            // generateTableFromObject(dataObj);
+            generateTableFromObject(dataObj);
         }
     }
-    xhttp.open("GET","{{BACKEND_API_SERVER_ADDRESS}}/api/dashboard", true);
+    var detailURL = "/api/tsd?attribute_name=HKQuantityTypeIdentifierStepCount"
+    var url = "{{BACKEND_API_SERVER_ADDRESS}}" + detailURL
+    xhttp.open("GET",url, true);
     xhttp.setRequestHeader('Authorization','Token '+tokenString)
     xhttp.send();
 }
 
-onPageLoadGetDashboardAPI();
+function onWalkingAndRunningCountSensorClick() {
 
-function onLogoutClick() {
-    window.location.href = "{% url 'login_page' %}";
+    const tokenString = localStorage.getItem('biodb_token');
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const dataString = this.responseText;
+            const dataObj = JSON.parse(dataString);
+            generateTableFromObject(dataObj);
+        }
+    }
+    var detailURL = "/api/tsd?attribute_name=HKQuantityTypeIdentifierDistanceWalkingRunning"
+    var url = "{{BACKEND_API_SERVER_ADDRESS}}" + detailURL
+    xhttp.open("GET",url, true);
+    xhttp.setRequestHeader('Authorization','Token '+tokenString)
+    xhttp.send();
 }
 
+function toGetUnitOfAttributes(name){
+  if (name == 'HKQuantityTypeIdentifierStepCount') {
+      return unit = "count"
+  } else {
+    return unit = "km"
+  }
+  }
+
+function generateTableFromObject(dataObj) {
+
+   var instrument = dataObj
+   var name = instrument.name
+   var unit = toGetUnitOfAttributes(name)
+   var htmlText = "<tr>";
+   htmlText += "<th>Attribute Name</th>";
+   htmlText += "<th>Mean</th>";
+   htmlText += "<th>Mode</th>";
+   htmlText += "<th>Median</th>";
+   htmlText += "</tr>";
+   htmlText += "<ul>"
+   htmlText += "<tr>";
+   htmlText += "<td>"+ name + "</td>"
+   htmlText += "<td>"+instrument.mean + " "+ unit +"</td>"
+   htmlText += "<td>"+instrument.mode + " "+ unit +"</td>"
+   htmlText += "<td>"+instrument.median + " " + unit +"</td>"
+   htmlText += "</tr>";
+   htmlText += "</ul>"
+   htmlText += "<td>";
+   if(name == 'HKQuantityTypeIdentifierStepCount'){
+   htmlText += "<button onclick='onStepCountViewClick();'>View</button>";
+ }
+ else if(name == 'HKQuantityTypeIdentifierDistanceWalkingRunning'){
+   htmlText += "<button onclick='onWalkingAndRunningViewClick();'>View</button>";
+ }
+   htmlText += "</td>";
+   console.log(name);
+   var tableElement = document.getElementById("statistics_table");
+   tableElement.innerHTML = htmlText;
+ }
+
+function onLogoutClick() {
+    window.location.href = "{% url 'logout_page' %}";
+}
 
 function generateViewFromObject(dataObj) {
     if (dataObj.was_found === false) {
-        alert("Sorry we could not find that instrument!");
+        alert("Sorry no records found!");
         onBackClick();
     } else {
         var firstNameInputElement = document.getElementById("first_name");
         firstNameInputElement.innerHTML = dataObj.first_name;
-
     }
 }
 
@@ -44,7 +101,6 @@ function onPageLoadRunGetProfileFromAPI() {
         }
     }
     const detailURL = "{{ BACKEND_API_SERVER_ADDRESS }}/api/user-profile/retrieve";
-    console.log(detailURL);
     xhttp.open("GET", detailURL, true);
     xhttp.setRequestHeader('Authorization','Token '+tokenString)
     xhttp.send();
@@ -52,39 +108,17 @@ function onPageLoadRunGetProfileFromAPI() {
 
 onPageLoadRunGetProfileFromAPI();
 
+function onProfileClick() {
+      window.location.href = "{% url 'retrieve_user' %}";
+}
 
-// function generateTableFromObject(dataObj) {
-//    //This is the code which will create
-//    // the table header row.
-//    var htmlText = "<tr>";
-//    htmlText += "<th>Attribute Name</th>";
-//    htmlText += "<th>Value</th>";
-//    htmlText += "<th>Creation Date</th>";
-//    htmlText += "<th></th>";
-//    htmlText += "</tr>";
-//    const attributesArray = dataObj;
-//
-//
-//    for (attributesObj of attributesArray) {
-//        var idString = attributesObj.id.toString();
-//        htmlText += "<tr>";
-//        htmlText += "<td>"+attributesObj.attribute_name+"</td>"
-//        htmlText += "<td>";
-//        htmlText += "<ul>";
-//        // var temperatureObj = instrumentObj.temperature;
-//        // htmlText += "<li>Mean:" + temperatureObj.mean + "</li>"; // <li> means "list item"
-//        // htmlText += "<li>Median:" + temperatureObj.median + "</li>";
-//        // htmlText += "<li>Mode:" + temperatureObj.mode + "</li>";
-//        // htmlText += "</ul>";
-//        // htmlText += "</td>"; // TEMPERATURE ROW ENDS HERE
-//
-//        htmlText += "<td>";
-//
-//        htmlText += "<button onclick='onViewClick("+idString+");'>View</button>";
-//        htmlText += "</td>";
-//
-//        htmlText += "</tr>";
-//    }
-//    var tableElement = document.getElementById("attributes_list");
-//    tableElement.innerHTML = htmlText;
-// }
+function onStepCountViewClick() {
+  window.location.href = "{% url 'step_count_detail_page' %}";
+  }
+
+function onWalkingAndRunningViewClick() {
+    window.location.href = "{% url 'walking_running_detail_page' %}";
+  }
+function onBackClick() {
+  window.location.href = "{% url 'login_page' %}";
+}

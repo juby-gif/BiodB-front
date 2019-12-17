@@ -47,3 +47,10 @@ def profile_retrieve_page(request):
 
 def profile_update_page(request):
     return render(request, "pages/user_profile/update.html", {})
+
+def step_count_sensor_detail_page(request):
+
+    return render(request, "pages/sensor/step_count_detail.html", {})
+
+def walking_running_sensor_detail_page(request):
+    return render(request, "pages/sensor/walking_running_detail.html", {})
