@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render # STEP 1 - Import
 from django.shortcuts import redirect
 
-# --- HOMEPAGE --- #
+#**************************** HOMEPAGE **************************#
 
 def index_page(request):
     return render(request, "pages/homepage/index.html", {})
@@ -13,7 +13,7 @@ def contact_page(request):
     return render(request, "pages/homepage/contact.html", {})
 
 
-# --- GATEWAY --- #
+#**************************** GATEWAY **************************#
 
 
 def register_page(request):
@@ -34,12 +34,7 @@ def logout_page(request):
 def dashboard_page(request):
     return render(request, "pages/dashboard/dashboard.html", {})
 
-# class HomePageView(View):
-#     def get(self, request, *args, **kwargs):
-#         return render(request, 'pages/dashboard/charts.html',{})
-#
-
-# --- USER PROFILE --- #
+#**************************** USER-PROFILE **************************#
 
 
 def profile_retrieve_page(request):
@@ -47,6 +42,9 @@ def profile_retrieve_page(request):
 
 def profile_update_page(request):
     return render(request, "pages/user_profile/update.html", {})
+
+#**************************** TIME SERIES DATA **************************#
+
 
 def step_count_sensor_detail_page(request):
 

@@ -1,29 +1,44 @@
+<!-- sensor/walking_running_detail -->
 <!DOCTYPE html>
 <html>
-<head>
-<title>BiodB | Walking and Running Records</title>
+  <head>
+    <title>BiodB | Walking and Running Records</title>
 
-</head>
+  </head>
 
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-th, td {
-  padding: 5px;
-}
-th {
-  text-align: left;
-}
-</style>
-<body>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 5px;
+    }
+    th {
+      text-align: left;
+    }
+  </style>
+  <body>
     <script>
         {% include "pages/sensor/walking_running_detail.js" %}
 
     </script>
     <h1>Walking and Running Records</h1>
-    <li><table style="width:40%" id="data_table"></table></li>
+    <li>
+      <table style="width:40%" id="data_table"></table>
+    </li>
+    <p>
+      <li>
+        <table style="width:40%" id="chart_table"></table>
+      </li>
+    </p>
+    <p>
+      <button type="button" onclick="onBackClick();">Go Back</button>
+    </p>
+    <p>
+      <button onclick="onPreviousClick();">Previous</button>
+      <button onclick="onNextClick();">Next</button>
+    </p>
 
 </body>
 </html>

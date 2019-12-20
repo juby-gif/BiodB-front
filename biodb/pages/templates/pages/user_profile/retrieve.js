@@ -23,6 +23,7 @@ function onPageLoadRunGetProfileFromAPI() {
             const dataString = this.responseText;
             const dataObj = JSON.parse(dataString);
             generateViewFromObject(dataObj);
+            generateNameObject(dataObj);
         }
     }
     const detailURL = "{{ BACKEND_API_SERVER_ADDRESS }}/api/user-profile/retrieve";
@@ -41,4 +42,14 @@ function onBackClick() {
 
 function onEditClick() {
     window.location.href = "{% url 'update_user' %}";
+}
+
+function generateNameObject(dataObj) {
+    if (dataObj.was_found === false) {
+        alert("Sorry no records found!");
+        onBackClick();
+    } else {
+        var firstNameInputElement = document.getElementById("profile_name");
+        firstNameInputElement.innerHTML = "Welcome to your profile, " + dataObj.first_name;
+    }
 }

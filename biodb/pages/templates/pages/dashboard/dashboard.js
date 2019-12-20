@@ -1,6 +1,5 @@
 
 function onStepCountSensorClick() {
-
     const tokenString = localStorage.getItem('biodb_token');
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -17,8 +16,24 @@ function onStepCountSensorClick() {
     xhttp.send();
 }
 
-function onWalkingAndRunningCountSensorClick() {
+function onUploadClick() {
+    const tokenString = localStorage.getItem('biodb_token');
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const dataString = this.responseText;
+            const dataObj = JSON.parse(dataString);
+            generateTableFromObject(dataObj);
+        }
+      }
+    var detailURL = "/api/ios-healthkit-uploads"
+    var url = "{{BACKEND_API_SERVER_ADDRESS}}" + detailURL
+    xhttp.open("POST",url, true);
+    xhttp.setRequestHeader('Authorization','Token '+tokenString)
+    xhttp.send();
+}
 
+function onWalkingAndRunningCountSensorClick() {
     const tokenString = localStorage.getItem('biodb_token');
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -44,7 +59,6 @@ function toGetUnitOfAttributes(name){
   }
 
 function generateTableFromObject(dataObj) {
-
    var instrument = dataObj
    var name = instrument.name
    var unit = toGetUnitOfAttributes(name)
@@ -57,20 +71,19 @@ function generateTableFromObject(dataObj) {
    htmlText += "<ul>"
    htmlText += "<tr>";
    htmlText += "<td>"+ name + "</td>"
-   htmlText += "<td>"+instrument.mean + " "+ unit +"</td>"
-   htmlText += "<td>"+instrument.mode + " "+ unit +"</td>"
-   htmlText += "<td>"+instrument.median + " " + unit +"</td>"
+   htmlText += "<td>"+instrument.mean.toString() + " "+ unit +"</td>"
+   htmlText += "<td>"+instrument.mode.toString() + " "+ unit +"</td>"
+   htmlText += "<td>"+instrument.median.toString() + " " + unit +"</td>"
    htmlText += "</tr>";
    htmlText += "</ul>"
    htmlText += "<td>";
    if(name == 'HKQuantityTypeIdentifierStepCount'){
-   htmlText += "<button onclick='onStepCountViewClick();'>View</button>";
+   htmlText += "<button onclick='onStepCountViewClick();'>View Records</button>";
  }
- else if(name == 'HKQuantityTypeIdentifierDistanceWalkingRunning'){
-   htmlText += "<button onclick='onWalkingAndRunningViewClick();'>View</button>";
+   else if(name == 'HKQuantityTypeIdentifierDistanceWalkingRunning'){
+   htmlText += "<button onclick='onWalkingAndRunningViewClick();'>View Records</button>";
  }
    htmlText += "</td>";
-   console.log(name);
    var tableElement = document.getElementById("statistics_table");
    tableElement.innerHTML = htmlText;
  }
@@ -108,6 +121,23 @@ function onPageLoadRunGetProfileFromAPI() {
 
 onPageLoadRunGetProfileFromAPI();
 
+function onListUploadsClick(){
+  const tokenString = localStorage.getItem('biodb_token');
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          const dataString = this.responseText;
+          const dataObj = JSON.parse(dataString);
+          generateTableForListFromObject(dataObj);
+
+        }
+    }
+  const detailURL = "{{ BACKEND_API_SERVER_ADDRESS }}/api/list/ios-healthkit-uploads";
+  xhttp.open("GET", detailURL, true);
+  xhttp.setRequestHeader('Authorization','Token '+tokenString)
+  xhttp.send();
+
+}
 function onProfileClick() {
       window.location.href = "{% url 'retrieve_user' %}";
 }
@@ -121,4 +151,30 @@ function onWalkingAndRunningViewClick() {
   }
 function onBackClick() {
   window.location.href = "{% url 'login_page' %}";
+}
+
+function generateTableForListFromObject(dataObj){
+  var htmlText = "<tr>";
+  htmlText += "<th>SL.No</th>";
+  htmlText += "<th>File</th>";
+  htmlText += "</tr>";
+  var count = dataObj.count
+  var nextPage = dataObj.next
+  var previousPage = dataObj.previous
+
+  var listArray = dataObj.results
+  var i;
+  for(i=0;i<listArray.length;i++){
+    var file = listArray[i].data_file;
+    htmlText += "<ul>"
+    htmlText += "<tr>";
+    htmlText += "<td>" + (i+1).toString() + "</td>";
+    htmlText += "<td>" + file + "</td>";
+    htmlText += "</tr>"
+
+    htmlText += "</ul>";
+
+  }
+  var tableElement = document.getElementById("uploads_list");
+  tableElement.innerHTML = htmlText;
 }

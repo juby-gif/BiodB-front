@@ -1,33 +1,142 @@
+<!-- sensor/step_count_detail -->
 <!DOCTYPE html>
 <html>
 <head>
-<title>BiodB | Steps Count Records</title>
+  <title>BiodB | Steps Count Records</title>
 </head>
 <style>
-table, th, td {
+  table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
+  }
+  th, td {
+    padding: 5px;
+  }
+  th {
+    text-align: left;
+  }
+</style>
+<body>
+  <script>
+  {% include "pages/sensor/step_count_detail.js" %}
+  </script>
+
+  <li>
+    <h2>Steps Count Records</h2>
+    <table style="width:40%" id="data_table"></table>
+  </li>
+  <p>
+    <li>
+      <table style="width:40%" id="chart_table"></table>
+    </li>
+  </p>
+  <p>
+    <button type="button" onclick="onBackClick();">Go Back</button>
+  </p>
+  <p>
+    <button onclick="onPreviousClick();">Previous</button>
+    <button onclick="onNextClick();">Next</button>
+  </p>
+
+
+
+<!-- <style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
 }
-th, td {
-  padding: 5px;
-}
-th {
-  text-align: left;
-}
+
 </style>
 
-    <script>
-        {% include "pages/sensor/step_count_detail.js" %}
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script> -->
 
-    </script>
-    <h1>Steps Count Records</h1>
-    <li><table style="width:40%" id="data_table"></table><li>
-
-    <br />
-
-    <br />
+<!-- <script>
+var dataChart;
+am4core.ready(function() { -->
 
 
+
+<!-- // Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+generateGraph()
+
+function generateGraph(){
+  const tokenString = localStorage.getItem('biodb_token');
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+          const dataString = this.responseText;
+          const dataObj = JSON.parse(dataString);
+          data = generateChartData(dataObj);
+          dataChart = data;
+          console.log(dataChart);
+        }
+
+  var detailURL = "/api/tsd-by-attribute-name?attribute_name=HKQuantityTypeIdentifierStepCount";
+  var url = "{{BACKEND_API_SERVER_ADDRESS}}" + detailURL;
+  xhttp.open("GET",url, true);
+  xhttp.setRequestHeader('Authorization','Token '+tokenString);
+  xhttp.send();
+}
+
+
+function generateChartData(dataObj){
+    dataArray = dataObj.results
+    var chartData = [];
+    var firstDate = new Date();
+    firstDate.setDate(firstDate.getDate() - 1000);
+    for(i=0;i<dataArray.length;i++){
+        var creation_date = dataArray[i].creation_date;
+        var value = dataArray[i].value
+
+        chartData.push({
+            creation_date: creation_date,
+            value: value
+        });
+    }
+    return chartData;
+
+}
+// Create chart instance
+var chart = am4core.create("chartdiv", am4charts.XYChart);
+// Add data
+chart.data = window.dataChart
+console.log(chart.data)
+
+// Create axes
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.minGridDistance = 50;
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+// Create series
+var series = chart.series.push(new am4charts.LineSeries());
+series.dataFields.valueY = "Value";
+series.dataFields.dateX = "Creation-date";
+series.strokeWidth = 2;
+series.minBulletDistance = 10;
+series.tooltipText = "{valueY}";
+series.tooltip.pointerOrientation = "vertical";
+series.tooltip.background.cornerRadius = 20;
+series.tooltip.background.fillOpacity = 0.5;
+series.tooltip.label.padding(12,12,12,12)
+
+// Add scrollbar
+chart.scrollbarX = new am4charts.XYChartScrollbar();
+chart.scrollbarX.series.push(series);
+
+// Add cursor
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.xAxis = dateAxis;
+chart.cursor.snapToSeries = series;
+
+}); // end am4core.ready()
+</script> -->
+<!-- 
+ <div id="chartdiv"></div> -->
 
 </body>
 </html>

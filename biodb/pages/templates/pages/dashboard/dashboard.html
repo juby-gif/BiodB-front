@@ -16,24 +16,30 @@ th {
 }
 </style>
 <body>
-    <script>
-        {% include "pages/dashboard/dashboard.js" %}
+  <script>
+    {% include "pages/dashboard/dashboard.js" %}
+  </script>
+  <h1>Dashboard</h1>
+  <button onclick="onProfileClick();">Your Profile</button>
+  <p>Welcome to your dashboard <strong id="first_name">Name</strong>,</p>
 
-    </script>
-    <h1>Dashboard</h1>
-    <button onclick="onProfileClick();">Your Profile</button>
-   <p>Welcome to your dashboard <strong id="first_name">Name</strong>,</p>
-   <p><button onclick="onStepCountSensorClick();">Statistics of Steps Count</button></p>
+  <input type="file" name="export.xml"></input>
+  <button onclick="onUploadClick();">Upload</button>
+  <p>
+    <button onclick="onListUploadsClick();">List your uploaded files</button>
+  </p>
+  <p>
+    <button onclick="onStepCountSensorClick();">Statistics of Steps Count</button>
+  </p>
 
-   <p><button onclick="onWalkingAndRunningCountSensorClick();">Statistics of Walking and Running</button></p>
-   <br />
-   <table style="width:40%" id="statistics_table"></table>
+  <p>
+    <button onclick="onWalkingAndRunningCountSensorClick();">Statistics of Walking and Running</button>
+  </p>
+  <br />
+  <table style="width:40%" id="uploads_list"></table>
 
-
+  <table style="width:40%" id="statistics_table"></table>
    <br />
    <button onclick="onLogoutClick();">Logout</button>
-
-
-
 </body>
 </html>

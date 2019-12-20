@@ -1,15 +1,15 @@
-<!-- register/index.html -->
+<!-- user/retrieve.html -->
 <!DOCTYPE html>
 <html>
-<head>
-<title>BioDB | User Profile</title>
-</head>
-<body>
+  <head>
+    <title>BioDB | User Profile</title>
+  </head>
+  <body>
     <script>
         {% include "pages/user_profile/retrieve.js" %}
     </script>
 
-    <h1>User Profile</h1>
+    <h1 id = "profile_name">User Profile</h1>
     <p>
     First Name:
     <input id="first_name" name="first_name" type="text" readonly disabled></input>
