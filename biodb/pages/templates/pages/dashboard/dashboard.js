@@ -32,7 +32,8 @@ function onUploadEvent(input) {
 
 function uploadAppleHealthKitToApiEndpoint(base64file) {
     const tokenString = localStorage.getItem('biodb_token');
-
+    var fakePath = document.getElementById("upload-apple-healthkit-export-file").value;
+    var fileName = fakePath.split("\\").pop();
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -46,8 +47,7 @@ function uploadAppleHealthKitToApiEndpoint(base64file) {
     xhttp.open("POST",url, true);
     xhttp.setRequestHeader('Authorization','Token '+tokenString);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    // xhttp.send("upload_file_name="+"export.xml"+"&upload_file="+base64file);
-    xhttp.send(JSON.stringify({ "upload_file_name": 'export.xml', "upload_file": base64file }));
+    xhttp.send(JSON.stringify({ "upload_file_name": fileName, "upload_file": base64file }));
 }
 
 
