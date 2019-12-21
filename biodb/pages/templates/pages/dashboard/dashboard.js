@@ -45,9 +45,12 @@ function uploadAppleHealthKitToApiEndpoint(base64file) {
     var url = "{{BACKEND_API_SERVER_ADDRESS}}" + detailURL
     xhttp.open("POST",url, true);
     xhttp.setRequestHeader('Authorization','Token '+tokenString);
-    xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-    xhttp.send("upload_file_name="+"export.xml"+"&upload_file="+base64file);
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    // xhttp.send("upload_file_name="+"export.xml"+"&upload_file="+base64file);
+    xhttp.send(JSON.stringify({ "upload_file_name": 'export.xml', "upload_file": base64file }));
 }
+
+
 
 function onWalkingAndRunningCountSensorClick() {
     const tokenString = localStorage.getItem('biodb_token');
