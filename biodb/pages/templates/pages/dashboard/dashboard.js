@@ -33,7 +33,7 @@ function onUploadEvent(input) {
 function uploadAppleHealthKitToApiEndpoint(base64file) {
     const tokenString = localStorage.getItem('biodb_token');
     var fakePath = document.getElementById("upload-apple-healthkit-export-file").value;
-    var fileName = fakePath.split("\\").pop();
+    var fileName = fakePath.split("\\").pop();//taken from: https://stackoverflow.com/questions/1804745/get-the-filename-of-a-fileupload-in-a-document-through-javascript
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
