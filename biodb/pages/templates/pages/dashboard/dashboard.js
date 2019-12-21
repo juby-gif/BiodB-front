@@ -16,21 +16,37 @@ function onStepCountSensorClick() {
     xhttp.send();
 }
 
-function onUploadClick() {
+// Taken from:  https://stackoverflow.com/questions/21355766/using-filereader-to-read-an-image-from-html-form
+function onUploadEvent(input) {
+    if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var base64FileUpload = e.target.result;
+                uploadAppleHealthKitToApiEndpoint(base64FileUpload);
+
+            }
+            reader.readAsDataURL(input.files[0]);
+    }
+}
+
+
+function uploadAppleHealthKitToApiEndpoint(base64file) {
     const tokenString = localStorage.getItem('biodb_token');
+
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             const dataString = this.responseText;
             const dataObj = JSON.parse(dataString);
-            generateTableFromObject(dataObj);
+            alert("You have successfully Uploaded the file")
         }
       }
     var detailURL = "/api/ios-healthkit-uploads"
     var url = "{{BACKEND_API_SERVER_ADDRESS}}" + detailURL
     xhttp.open("POST",url, true);
-    xhttp.setRequestHeader('Authorization','Token '+tokenString)
-    xhttp.send();
+    xhttp.setRequestHeader('Authorization','Token '+tokenString);
+    xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    xhttp.send("upload_file_name="+"export.xml"+"&upload_file="+base64file);
 }
 
 function onWalkingAndRunningCountSensorClick() {
@@ -67,6 +83,8 @@ function generateTableFromObject(dataObj) {
    htmlText += "<th>Mean</th>";
    htmlText += "<th>Mode</th>";
    htmlText += "<th>Median</th>";
+   htmlText += "<th>Highest</th>";
+   htmlText += "<th>Lowest</th>";
    htmlText += "</tr>";
    htmlText += "<ul>"
    htmlText += "<tr>";
@@ -74,6 +92,8 @@ function generateTableFromObject(dataObj) {
    htmlText += "<td>"+instrument.mean.toString() + " "+ unit +"</td>"
    htmlText += "<td>"+instrument.mode.toString() + " "+ unit +"</td>"
    htmlText += "<td>"+instrument.median.toString() + " " + unit +"</td>"
+   htmlText += "<td>"+instrument.maximum.toString() + " " + unit +"</td>"
+   htmlText += "<td>"+instrument.minimum.toString() + " " + unit +"</td>"
    htmlText += "</tr>";
    htmlText += "</ul>"
    htmlText += "<td>";

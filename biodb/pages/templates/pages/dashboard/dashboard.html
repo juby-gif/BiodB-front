@@ -23,8 +23,10 @@ th {
   <button onclick="onProfileClick();">Your Profile</button>
   <p>Welcome to your dashboard <strong id="first_name">Name</strong>,</p>
 
-  <input type="file" name="export.xml"></input>
-  <button onclick="onUploadClick();">Upload</button>
+  <input type="file" name="upload-apple-healthkit-export-file"  id="upload-apple-healthkit-export-file" onChange="onUploadEvent(this)" >
+
+
+
   <p>
     <button onclick="onListUploadsClick();">List your uploaded files</button>
   </p>
